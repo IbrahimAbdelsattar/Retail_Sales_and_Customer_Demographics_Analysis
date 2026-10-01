@@ -22,6 +22,34 @@ An exploratory retail analytics notebook with a Gradio dashboard for inspecting 
 
 The CSV is included, but the notebook reads a Kaggle path in more than one cell. Update each occurrence to the local dataset before running. Execute the analysis and dashboard cells in order. The interface is defined inside the notebook; no separate `app.py` is committed.
 
+## UML diagrams
+
+### Main workflow
+
+The notebook prepares retail records, produces descriptive visualizations, and exposes selected views through Gradio.
+
+```mermaid
+sequenceDiagram
+    participant Notebook as Retail analysis notebook
+    participant CSV as Retail sales CSV
+    participant Data as pandas DataFrame
+    participant Plots as Matplotlib and Seaborn
+    participant UI as Gradio interface
+    Notebook->>CSV: Read sales records
+    CSV-->>Notebook: Transactions and demographics
+    Notebook->>Data: Clean fields and derive date features
+    Data-->>Notebook: Analysis-ready records
+    loop Sales and demographic views
+        Notebook->>Data: Group or filter records
+        Data-->>Notebook: Summary values
+        Notebook->>Plots: Render analysis chart
+        Plots-->>Notebook: Figure
+    end
+    Notebook->>UI: Register interactive analysis callbacks
+    UI->>Plots: Request selected visualization
+    Plots-->>UI: Figure for display
+```
+
 ## Getting started
 
 ```bash
